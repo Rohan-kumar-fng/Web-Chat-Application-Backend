@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: WebChatApplication
+
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/chat
+    username: root
+    password:
+
+  # check later How can you use JPA here
