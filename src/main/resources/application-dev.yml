@@ -1,0 +1,25 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/chat_app_db
+    username: chatapp_user
+    password: chatapp_password
+    driver-class-name: com.mysql.cj.jdbc.Driver  # Spring actually autoconfigure but better to mention here
+
+  jpa:
+    hibernate:
+      ddl-auto: update   # It will automatically add column in database when some
+    show-sql: true   # Logging true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect   # Spring autoconfigure but  mentioning it optimize
+        format_sql: true   # Logging output get formated pretty
+
+logging:
+  level:
+    com.learning.WebChatApplication: DEBUG
+    org.hibernate.sql: DEBUG
+    org.springframework.web.socket: DEBUG

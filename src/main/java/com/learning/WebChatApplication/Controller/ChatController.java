@@ -7,39 +7,44 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.time.LocalDateTime;
+
 @CrossOrigin(origins = "http://localhost:5173")
 @Controller
+@RequiredArgsConstructor  // Very important, it will auto generate constructor
 public class ChatController {
 
-    MessageServices messageServices;
-
-    private SimpMessagingTemplate simpMessagingTemplate;
-
-    ChatController(MessageServices messageServices){
-        this.messageServices = messageServices;
-    }
-
-    @MessageMapping("/hello")
-    @SendTo("/topic/greetings")
-    public Message send(Message message) throws Exception {
-        return messageServices.getResponse(new Message(message.getFrom(), message.getContent(),message.getSendTime(), message.getStatus()));
-    }
+    private final MessageServices messageServices;
+    private final SimpMessagingTemplate simpMessagingTemplate;
 
     @MessageMapping("/message")
-    @SendTo("/chatroom/public")
-    public Message sendtoFrontend(Message message) throws Exception {
-        System.out.println("From: " + message.getFrom() + "Status: " + message.getStatus());
-        return messageServices.getResponse(new Message(message.getFrom(), message.getContent(),message.getSendTime(), message.getStatus()));
+    @SendTo("/chatroom/public") // This is the Message Broker,
+    public Message sendtoFrontend(@Payload Message message, SimpMessageHeaderAccessor headerAccessor) throws Exception {
+        // Add session ofr better tracking of user joining
+        String sessionId = headerAccessor.getSessionId();
+        System.out.println("Session: " + sessionId + ", From: " + message.getSender() + ", Status: " + message.getStatus());
+
+        // If timestamp is not provided
+        if(message.getSendTime() == null){
+            message.setSendTime(LocalDateTime.now());
+        }
+
+        return messageServices.getResponse(new Message(
+                message.getSender(),
+                message.getContent(),
+                message.getChatRoom()
+        ));
     }
 
     @MessageMapping("/private-message")
     public Message sendToPrivate(@Payload Message message) throws Exception {
-        System.out.println("From: "+message.getFrom()+", To:"+message.getReceiverName()+", Message:"+message.getContent());
-        simpMessagingTemplate.convertAndSendToUser( message.getReceiverName() , "/private", message);
+        System.out.println("From: "+message.getSender()+", To:"+message.getReceiver()+", Message:"+message.getContent());
+        simpMessagingTemplate.convertAndSendToUser( message.getReceiver().getUsername() , "/private", message);
         return message;
     }
 

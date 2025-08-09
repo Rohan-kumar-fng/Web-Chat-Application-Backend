@@ -1,4 +1,4 @@
-package com.learning.WebChatApplication.Controller.MessageController;
+package com.learning.WebChatApplication.Controller;
 
 //import com.learning.WebChatApplication.Entity.Chat;
 //import com.learning.WebChatApplication.Entity.Message;

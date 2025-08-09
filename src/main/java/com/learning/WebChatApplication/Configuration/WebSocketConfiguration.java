@@ -14,7 +14,7 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry){
         registry.addEndpoint("/chat")
-                .setAllowedOrigins("http://localhost:5173")
+                .setAllowedOrigins("http://localhost:5173")  // this should go inside the application yml file
                 .withSockJS();
     } // This endpoint the client to join the Wensocket connection for first time(Using HTTP, later shift to websocket)
 

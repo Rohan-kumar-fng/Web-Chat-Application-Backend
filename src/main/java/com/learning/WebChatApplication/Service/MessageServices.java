@@ -26,7 +26,7 @@ public class MessageServices {
 
     public Message getResponse(Message message) throws Exception{
         System.out.println("Received the Request");
-        System.out.println("From: "+ message.getFrom()+", "+message.getContent()+", "+message.getStatus());
+        System.out.println("From: "+ message.getSender()+", "+message.getContent()+", "+message.getStatus());
         Thread.sleep(1000);
         message.setContent(message.getContent() + ", Thanks for your Response");
         message.setStatus(message.getStatus());
