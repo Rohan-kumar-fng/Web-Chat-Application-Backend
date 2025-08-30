@@ -95,8 +95,4 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
             "WHERE ms.createdAt <= :cutOffDate")
     void deleteMessageOlderThan(@Param("cutOffDate") LocalDateTime cutOffDate);
 
-
-
-
-
 }

@@ -3,6 +3,7 @@ package com.learning.WebChatApplication.Entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -17,6 +18,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "users")
 @Data // It contains Getter, Setter, toString(), equals() and hashCode()[Compare based on field no on reference)
+@NoArgsConstructor
 public class User {
 
     @Id // Telling it to Take it as Primary Key Hmmm

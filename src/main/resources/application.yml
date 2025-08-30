@@ -23,7 +23,7 @@ spring:
 
   logging:
     level:
-      com.learning.WebChatApplication: INFO
+      com.learning.WebChatApplication: DEBUG
       org.hibernate.sql: WARN
       org.springframework.web.socket: DEBUG
 

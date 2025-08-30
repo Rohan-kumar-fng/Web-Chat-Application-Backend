@@ -25,7 +25,7 @@ public class ChatRoom {
 
     @Enumerated
     @Column(nullable = false)
-    private ChatRoomType type;
+    private ChatRoomType type = ChatRoomType.PUBLIC;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by")
@@ -37,7 +37,7 @@ public class ChatRoom {
 
     // This ChatRooms have many messages, Hmm
     @OneToMany(mappedBy = "chatRoom",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Message> messages;
+    private List<Message> messages = new ArrayList<Message>();
 
     public enum ChatRoomType {
         PUBLIC, PRIVATE, GROUP
